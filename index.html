@@ -8,11 +8,8 @@
 
 <body>
   <main id="app">
-
-    <section id="list-lodges" :hidden='hideLodgesList'>
-      <div v-if="listLodges.length <= 0">
-        Nenhuma pousada encontrada!
-      </div>
+    <h1>Pousadaria - BnB Guru</h1>
+    <div id="list-lodges" :hidden='hideLodgesList'>
 
       <ul>
         <li v-for="lodge in listLodges">
@@ -21,22 +18,44 @@
           </address>
         </li>
       </ul>
-    </section>
+    </div>
 
-    <section id="lodge-details" :hidden="hideLodgeDetails">
+    <div id="lodge-details" :hidden="hideLodgeDetails">
       <h2>{{ corporateName }}</h2>
       <h3>Nome da Pousada: {{ lodgeName }}</h3>
-
       <p>Descrição: {{ description }}</p>
       <p>Telefone para contato: {{ phoneNumber }}</p>
-      <p>Permite animais de estimação: {{ pets ? 'Aceita' : 'Não aceita' }}</p>
+      <p>Permite animais de estimação: {{  pets ? 'Aceita' : 'Não aceita' }}</p>
       <p>Políticas da pousada: {{ policies }}</p>
-      <p>Endereço: {{ address }}, {{ number }} {{ complement }}</p>
+      <p>Endereço: {{ address }}</p>
       <p>Bairro: {{ neighborhood }} </p>
       <p>Cidade: {{ city }} </p>
       <p>Estado: {{ state }} </p>
       <p>CEP: {{ zipCode }} </p>
-    </section>
+
+      <h4><a href="#" v-on:click = "getRooms(currentLodgeId)">Quartos da Pousada</a></h4>
+    </div>
+
+    <div id="list-rooms">
+      <ul>
+        <li v-for=" room in listRooms">
+          <h4>Nome do Quarto: {{ room.name }}</h4>
+          <p>Descrição: {{ room.description }}</p>
+          <p>Área: {{ room.area }}m²</p>
+          <p>Ar Condicionado: {{ room.ac ? 'Sim' : 'Não' }}</p>
+          <p>Varanda: {{ room.balcony ? 'Sim' : 'Não' }}</p>
+          <p>TV: {{ room.tv ? 'Sim' : 'Não' }}</p>
+          <p>Acesso para PcD: {{ room.disabledFacilities ? 'Sim' : 'Não' }} </p>
+          <p>Guarda-roupas: {{ room.closet ? 'Sim' : 'Não' }} </p>
+          <p>Banheiro: {{ room.bathroom ? 'Sim' : 'Não' }} </p>
+          <p>Cofre: {{ room.safe ? 'Sim' : 'Não' }} </p>
+          <p>Máximo de Hóspedes: {{ room.maxGuests }} </p>
+          <p>Diária Padrão: {{ room.standardOvernight }} </p>
+          <p>Disponível: {{ room.vacant ? 'Sim' : 'Não' }} </p>
+        </li>
+      </ul>
+
+    </div>
 
   </main>
   

@@ -1,8 +1,8 @@
 const app = Vue.createApp({
   data() {
     return {
-      searchText: '',
       listLodges: [],
+      listRooms: [],
 
       id: '',      
       corporateName: '',
@@ -25,6 +25,7 @@ const app = Vue.createApp({
       state: '',
       
       hideLodgeDetails: true,
+      hideRoomsList: true,
     }
   },
   async mounted(){
@@ -57,6 +58,7 @@ const app = Vue.createApp({
     async getLodgeDetails(lodgeId){
       this.hideLodgesList = true;
       this.hideLodgeDetails = false;
+      this.hideRoomsList = false;
 
       let response = await fetch(`http://localhost:3000/api/v1/lodges/${lodgeId}/`)
       let data = await response.json();
@@ -75,6 +77,36 @@ const app = Vue.createApp({
       this.state = data.state;
       this.zipCode = data.zip_code;
     },
+
+    async getRooms(lodgeId){
+      //this.hideLodgeDetails = false;
+      //this.hideRoomsList = false;
+
+      let response = await fetch(`http://localhost:3000/api/v1/lodges/${lodgeId}/rooms`)
+      let data = await response.json();
+
+      this.listRooms = [];
+      data.forEach(item => {
+        var room = new Object();
+        room.id = item.id;
+        room.name = item.name;
+        room.description = item.description;
+        room.area = item.area;
+        room.ac = item.ac;
+        room.balcony = item.balcony;
+        room.tv = item.tv;
+        room.disabledFacilities = item.disabled_facilities;
+        room.closet = item.closet;
+        room.bathroom = item.bathroom;
+        room.safe = item.safe;
+        room.maxGuests = item.max_guests;
+        room.standardOvernight = item.standard_overnight;
+        room.vacant = item.vacant;
+
+        this.listRooms.push(room)
+      })
+
+    }
 
   }
 });
