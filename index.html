@@ -9,10 +9,17 @@
 <body>
   <main id="app">
     <h1>Pousadaria - BnB Guru</h1>
+
+    <input type="text" v-model="searchText" >
+    
+      <div class="msg" v-if="listResult.length <= 0">
+        Nenhuma pousada encontrada.
+      </div>
+
     <div id="list-lodges" :hidden='hideLodgesList'>
 
       <ul>
-        <li v-for="lodge in listLodges">
+        <li v-for="lodge in listResult">
           <address>
             <strong> <a href="#" v-on:click="getLodgeDetails(lodge.id)"> {{ lodge.name }} </a></strong>
           </address>

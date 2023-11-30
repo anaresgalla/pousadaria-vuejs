@@ -3,6 +3,7 @@ const app = Vue.createApp({
     return {
       listLodges: [],
       listRooms: [],
+      searchText: '',
 
       id: '',      
       corporateName: '',
@@ -28,6 +29,21 @@ const app = Vue.createApp({
       hideRoomsList: true,
     }
   },
+
+  computed:{
+    listResult(){
+      if(this.searchText){
+        //Procurar pelo contato
+        return this.listLodges.filter(lodge => {
+          return lodge.name.toLowerCase().includes(this.searchText.toLowerCase());
+        });
+      }else{
+        //Se não encontrar, retornar todos os contatos
+        return this.listLodges;
+      }
+    }
+  },
+
   async mounted(){
     this.listLodges = this.getLodges();
    
@@ -40,7 +56,12 @@ const app = Vue.createApp({
       
       this.currentLodgeId = '';
 
-      let url = 'http://localhost:3000/api/v1/lodges/'
+      let url = ''
+      if(this.searchText) {
+        url = `http://localhost:3000/api/v1/lodges/?name=${this.searchText}`
+      } else {
+        url = `http://localhost:3000/api/v1/lodges/`
+      }
       
       let response = await fetch(url);
       let data = await response.json();
