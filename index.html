@@ -5,10 +5,22 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Pousadaria</title>
 </head>
+
 <body>
+  <div id="app">
+    <h1>Pousadaria - BnB Guru</h1>
+    
+      <ul>
+        <li v-for="lodge in listLodges">
+          <address>
+            <strong> <a href="#"> {{ lodge.name }} </a></strong> - {{ lodge.city }}
+          </address>
+        </li>
+      </ul>
+    </section>
 
-
-
+  </div>
+  
   <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
   <script src="main.js"></script>
 </body>
