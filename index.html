@@ -7,19 +7,38 @@
 </head>
 
 <body>
-  <div id="app">
-    <h1>Pousadaria - BnB Guru</h1>
-    
+  <main id="app">
+
+    <section id="list-lodges" :hidden='hideLodgesList'>
+      <div v-if="listLodges.length <= 0">
+        Nenhuma pousada encontrada!
+      </div>
+
       <ul>
         <li v-for="lodge in listLodges">
           <address>
-            <strong> <a href="#"> {{ lodge.name }} </a></strong> - {{ lodge.city }}
+            <strong> <a href="#" v-on:click="getLodgeDetails(lodge.id)"> {{ lodge.name }} </a></strong>
           </address>
         </li>
       </ul>
     </section>
 
-  </div>
+    <section id="lodge-details" :hidden="hideLodgeDetails">
+      <h2>{{ corporateName }}</h2>
+      <h3>Nome da Pousada: {{ lodgeName }}</h3>
+
+      <p>Descrição: {{ description }}</p>
+      <p>Telefone para contato: {{ phoneNumber }}</p>
+      <p>Permite animais de estimação: {{ pets ? 'Aceita' : 'Não aceita' }}</p>
+      <p>Políticas da pousada: {{ policies }}</p>
+      <p>Endereço: {{ address }}, {{ number }} {{ complement }}</p>
+      <p>Bairro: {{ neighborhood }} </p>
+      <p>Cidade: {{ city }} </p>
+      <p>Estado: {{ state }} </p>
+      <p>CEP: {{ zipCode }} </p>
+    </section>
+
+  </main>
   
   <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
   <script src="main.js"></script>
