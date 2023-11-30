@@ -1,44 +1,50 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Sofia">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Trirong">
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Pousadaria</title>
+  <link rel="stylesheet" href="style.css">
 </head>
 
 <body>
   <main id="app">
     <h1>Pousadaria - BnB Guru</h1>
 
-    <input type="text" v-model="searchText" >
+    <input class="input" type="text" v-model="searchText" placeholder="Digite um nome" >
     
       <div class="msg" v-if="listResult.length <= 0">
         Nenhuma pousada encontrada.
       </div>
 
-    <div id="list-lodges" :hidden='hideLodgesList'>
-
-      <ul>
-        <li v-for="lodge in listResult">
-          <address>
-            <strong> <a href="#" v-on:click="getLodgeDetails(lodge.id)"> {{ lodge.name }} </a></strong>
-          </address>
-        </li>
-      </ul>
-    </div>
+      <div id="list-lodges" :hidden="hideLodgesList">
+        <ul class="card-list">
+          <li v-for="lodge in listResult" class="card-item">
+            <div class="card">
+              <address>
+                <strong>
+                  <a href="#" v-on:click="getLodgeDetails(lodge.id)">{{ lodge.name }}</a>
+                </strong>
+              </address>
+            </div>
+          </li>
+        </ul>
+      </div>
 
     <div id="lodge-details" :hidden="hideLodgeDetails">
       <h2>{{ corporateName }}</h2>
       <h3>Nome da Pousada: {{ lodgeName }}</h3>
-      <p>Descrição: {{ description }}</p>
-      <p>Telefone para contato: {{ phoneNumber }}</p>
-      <p>Permite animais de estimação: {{  pets ? 'Aceita' : 'Não aceita' }}</p>
-      <p>Políticas da pousada: {{ policies }}</p>
-      <p>Endereço: {{ address }}</p>
-      <p>Bairro: {{ neighborhood }} </p>
-      <p>Cidade: {{ city }} </p>
-      <p>Estado: {{ state }} </p>
-      <p>CEP: {{ zipCode }} </p>
+      <p><strong>Descrição:</strong> {{ description }}</p>
+      <p><strong>Telefone:</strong> {{ phoneNumber }}</p>
+      <p><strong>Permite Animais de Estimação:</strong> {{  pets ? 'Sim' : 'Não' }}</p>
+      <p><strong>Políticas:</strong> {{ policies }}</p>
+      <p><strong>Endereço:</strong> {{ address }}</p>
+      <p><strong>Bairro:</strong> {{ neighborhood }} </p>
+      <p><strong>Cidade:</strong> {{ city }} </p>
+      <p><strong>Estado:</strong> {{ state }} </p>
+      <p><strong>CEP:</strong> {{ zipCode }} </p>
 
       <h4><a href="#" v-on:click = "getRooms(currentLodgeId)">Quartos da Pousada</a></h4>
     </div>
@@ -47,18 +53,18 @@
       <ul>
         <li v-for=" room in listRooms">
           <h4>Nome do Quarto: {{ room.name }}</h4>
-          <p>Descrição: {{ room.description }}</p>
-          <p>Área: {{ room.area }}m²</p>
-          <p>Ar Condicionado: {{ room.ac ? 'Sim' : 'Não' }}</p>
-          <p>Varanda: {{ room.balcony ? 'Sim' : 'Não' }}</p>
-          <p>TV: {{ room.tv ? 'Sim' : 'Não' }}</p>
-          <p>Acesso para PcD: {{ room.disabledFacilities ? 'Sim' : 'Não' }} </p>
-          <p>Guarda-roupas: {{ room.closet ? 'Sim' : 'Não' }} </p>
-          <p>Banheiro: {{ room.bathroom ? 'Sim' : 'Não' }} </p>
-          <p>Cofre: {{ room.safe ? 'Sim' : 'Não' }} </p>
-          <p>Máximo de Hóspedes: {{ room.maxGuests }} </p>
-          <p>Diária Padrão: {{ room.standardOvernight }} </p>
-          <p>Disponível: {{ room.vacant ? 'Sim' : 'Não' }} </p>
+          <p><strong>Descrição:</strong> {{ room.description }}</p>
+          <p><strong>Área:</strong> {{ room.area }}m²</p>
+          <p><strong>Ar Condicionado:</strong> {{ room.ac ? 'Sim' : 'Não' }}</p>
+          <p><strong>Varanda:</strong> {{ room.balcony ? 'Sim' : 'Não' }}</p>
+          <p><strong>TV:</strong> {{ room.tv ? 'Sim' : 'Não' }}</p>
+          <p><strong>Acesso para PcD:</strong> {{ room.disabledFacilities ? 'Sim' : 'Não' }} </p>
+          <p><strong>Guarda-roupas:</strong> {{ room.closet ? 'Sim' : 'Não' }} </p>
+          <p><strong>Banheiro:</strong> {{ room.bathroom ? 'Sim' : 'Não' }} </p>
+          <p><strong>Cofre:</strong> {{ room.safe ? 'Sim' : 'Não' }} </p>
+          <p><strong>Máximo de Hóspedes:</strong> {{ room.maxGuests }} </p>
+          <p><strong>Diária Padrão:</strong> {{ room.standardOvernight }} </p>
+          <p><strong>Disponível:</strong> {{ room.vacant ? 'Sim' : 'Não' }} </p>
         </li>
       </ul>
 
