@@ -4,6 +4,8 @@ const app = Vue.createApp({
       listLodges: [],
       listRooms: [],
       searchText: '',
+      
+      bookingDetails: {},     
 
       id: '',      
       corporateName: '',
@@ -27,6 +29,15 @@ const app = Vue.createApp({
       
       hideLodgeDetails: true,
       hideRoomsList: true,
+      hideLodgesList: true,
+      hideBookingDetails: true,
+      
+      currentRoomId: '',
+      checkinDate: '',
+      checkoutDate: '',
+      numberGuests: '',
+      bookingPrice: '',
+      errors: [],
     }
   },
 
@@ -45,15 +56,13 @@ const app = Vue.createApp({
   },
 
   async mounted(){
-    this.listLodges = this.getLodges();
-   
+    this.listLodges = this.getLodges();   
   }, 
 
   methods: {
     async getLodges(){
-      this.hideLodgeList = false;
+      this.hideLodgesList = false;
       this.hideLodgeDetails = true;
-      
       this.currentLodgeId = '';
 
       let url = ''
@@ -99,9 +108,7 @@ const app = Vue.createApp({
       this.zipCode = data.zip_code;
     },
 
-    async getRooms(lodgeId){
-      //this.hideLodgeDetails = false;
-      //this.hideRoomsList = false;
+    async getRooms(lodgeId){  
 
       let response = await fetch(`http://localhost:3000/api/v1/lodges/${lodgeId}/rooms`)
       let data = await response.json();
@@ -125,10 +132,43 @@ const app = Vue.createApp({
         room.vacant = item.vacant;
 
         this.listRooms.push(room)
+        
+        if (!this.bookingDetails[room.id]) {
+          this.bookingDetails[room.id] = {
+            checkinDate: '',
+            checkoutDate: '',
+            numberGuests: '',
+            bookingPrice: '',
+            errors: [],
+          };
+        }
       })
+    },
 
-    }
+    async checkRoomAvailability(roomId, roomDetails){
+      this.currentRoomId = roomId;
+      this.hideBookingDetails = false;
+   
+      let url = `http://localhost:3000/api/v1/lodges/check_availability/?id=${roomId}&start_date=${roomDetails.checkinDate}&end_date=${roomDetails.checkoutDate}&guests=${roomDetails.numberGuests}`
 
+      try {
+        let response = await fetch(url);
+        if (response.ok) {
+          let data = await response.json();
+          this.bookingPrice = '';
+          this.errors = [];
+          if(data.total_price) {
+            this.bookingPrice = data.total_price         
+          }
+        } else {          
+          this.errors = 'Quarto indisponível na data ou número de hóspedes maior que o permitido.';        
+        }
+      } catch (error) {
+       
+        console.error('Network error:', error);
+        this.errors = ['Erro de rede. Verifique sua conexão.'];
+      }
+    },  
   }
 });
 
